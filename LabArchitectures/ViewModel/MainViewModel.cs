@@ -15,7 +15,7 @@ namespace LabArchitectures.ViewModel
 {
     class MainViewModel 
     { 
-        private ObservableCollection<Query> _queries;
+         private ObservableCollection<Query> _queries;
         private User _currentUser;
         private Query _currentQuery;
         private string _fileName;
@@ -56,8 +56,10 @@ namespace LabArchitectures.ViewModel
         }
         public MainViewModel( )
         {
+
             _queries = new ObservableCollection<Query>();
             UpdCurrUser();
+           
         }
          
 
@@ -69,7 +71,8 @@ namespace LabArchitectures.ViewModel
         public void ViewHistoryExecute(object o)
         { 
             String t = "Your query history:\n";
-            foreach (Query q in _currentUser.Queries)//TODO: null user 
+
+            foreach (Query q in _currentUser.Queries)
             {
                 t += "\t";
                 t += q;
@@ -98,7 +101,8 @@ namespace LabArchitectures.ViewModel
             _currentQuery = new Query(DateTime.Now, FileName, _currentUser);
             MessageBox.Show(results);
             if (_currentQuery != null) {
-                _queries.Add(_currentQuery);//local
+              //  MessageBox.Show(_currentQuery + "adding");
+                 _queries.Add(_currentQuery);//local
                 _currentUser.AddQ(_currentQuery);//save for user
             }
         }

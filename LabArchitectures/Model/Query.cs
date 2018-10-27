@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LabArchitectures.Model
@@ -28,15 +29,15 @@ namespace LabArchitectures.Model
         public Query(DateTime d , string f , User user)  {
             _filePath = f;
             _execDate = d;
-             user.AddQ(this);
+          //   user.AddQ(this); no need
         }
         //reads text and returns staistics
         public static string GetRes(string text)
         {
-            
+             
             int CharCount = text.Length;            
             int LinesCount = text.Split('\r').Length;       
-            int WordsCount = text.Split(' ').Length;
+            int WordsCount =  Regex.Matches(text, @"\b\w+\b").Count;//text.Split(' ').Length; 
             String a = "Symbols: "+CharCount+" Words: "+WordsCount+" Lines: "+LinesCount;
             return a;
         }

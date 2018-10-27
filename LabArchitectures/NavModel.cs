@@ -37,7 +37,7 @@ namespace LabArchitectures
                     _contentWindow.ContentControl.Content = _signUpView ?? (_signUpView = new View.SignUpView());
                     break;
                 case ModesEnum.Main:
-                    _contentWindow.ContentControl.Content = _mainView ?? (_mainView = new View.MainView());
+                    _contentWindow.ContentControl.Content = (_mainView = new View.MainView());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);

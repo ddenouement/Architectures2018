@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 namespace LabArchitectures.ViewModel
-{ 
-        public interface IPageViewModel
-        { 
-            ContentControl ContentControl { get; }
-        
-     
-        }
-    
+{
+    public interface IPageViewModel
+    {
+        ContentControl ContentControl { get; }
+
+
+    }
+
 
 }

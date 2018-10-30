@@ -25,7 +25,7 @@ namespace LabArchitectures
         {
             _contentWindow = contentWindow;
         }
-        
+
         internal void Navigate(ModesEnum mode)
         {
             switch (mode)

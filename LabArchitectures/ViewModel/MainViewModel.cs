@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,11 +14,12 @@ using Microsoft.Win32;
 
 namespace LabArchitectures.ViewModel
 {
-    class MainViewModel 
-    { 
-         private ObservableCollection<Query> _queries;
+    class MainViewModel : INotifyPropertyChanged
+    {
+        private ObservableCollection<Query> _queries;
         private User _currentUser;
         private Query _currentQuery;
+        private Query _selectedQuery;
         private string _fileName;
         private string _fileText;
         private ICommand _readFileCommand;
@@ -54,27 +56,50 @@ namespace LabArchitectures.ViewModel
             }
             set { _fileText = value; }
         }
-        public MainViewModel( )
+        public ObservableCollection<Query> Queries
+        {
+            get { return _queries; }
+        }
+        public Query SelectedQuery
+        {
+            get { return _selectedQuery; }
+            set
+            {
+                _selectedQuery = value;
+                OnPropertyChanged();
+            }
+        }
+        public MainViewModel()
         {
 
             _queries = new ObservableCollection<Query>();
             UpdCurrUser();
-           
-        }
-         
+            FillQueries();
 
-        public void UpdCurrUser( )
+            PropertyChanged += OnPropertyChanged;
+        }
+        private void FillQueries()
+        {
+            foreach (var wallet in _currentUser.Queries)
+            {
+                _queries.Add(wallet);
+            }
+            if (_queries.Count > 0)
+            {
+                _selectedQuery = Queries[0];
+            }
+        }
+        public void UpdCurrUser()
         {
             this._currentUser = SessionContext.CurrentUser;
         }
-      // public void createNewUser()
+
         public void ViewHistoryExecute(object o)
-        { 
+        {
             String t = "Your query history:\n";
 
             foreach (Query q in _currentUser.Queries)
             {
-                t += "\t";
                 t += q;
                 t += "\n";
             }
@@ -83,26 +108,21 @@ namespace LabArchitectures.ViewModel
         }
         public void ReadFileExecute(object obj)
         {
-
-            /*
-            string text = TextFromFD();*/
             try
             {
                 OpenFile();
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error..." + e);
+
                 return;
             }
 
-
-            string results = Query.GetRes(FileText);
-            _currentQuery = new Query(DateTime.Now, FileName, _currentUser);
-            MessageBox.Show(results);
-            if (_currentQuery != null) {
-              //  MessageBox.Show(_currentQuery + "adding");
-                 _queries.Add(_currentQuery);//local
+            _currentQuery = new Query(DateTime.Now, FileName, FileText);
+            MessageBox.Show(_currentQuery + "");
+            if (_currentQuery != null)
+            {
+                _queries.Add(_currentQuery);//local
                 _currentUser.AddQ(_currentQuery);//save for user
             }
         }
@@ -111,7 +131,7 @@ namespace LabArchitectures.ViewModel
             SessionContext.LogOut();
             UpdCurrUser();
             NavManager.Instance.Navigate(ModesEnum.SignIn);
-             
+
         }
         private void OpenFile()
         {
@@ -129,28 +149,28 @@ namespace LabArchitectures.ViewModel
                 this._fileText = sr.ReadToEnd();
             }
         }
-        /*Not MVVM
-         
-        public String TextFromFD()
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            string text = "";
-            OpenFileDialog opDialog = new OpenFileDialog();
-            opDialog.ShowDialog(); // Show the dialog.
+            if (propertyChangedEventArgs.PropertyName == "SelectedQuery")
+                OnQueryChanged(_selectedQuery);
+        }
 
-            try
-            {
-                string file = opDialog.FileName;//TODO error if close FileDialog
-                if (!file.Equals(""))
-                {
-                    text = File.ReadAllText(file);
-                    _currentQuery = new Query(DateTime.Now, file,_currentUser);
-                }
-            }
-            catch (IOException)
-            {
-            }
+        #region Loader
+        internal event QueryChangedHandler QueryChanged;
+        internal delegate void QueryChangedHandler(Query q);
 
-            return text;
-        }*/
+        internal virtual void OnQueryChanged(Query q)
+        {
+            QueryChanged?.Invoke(q);
+        }
+        #endregion
+        #region PropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
     }
 }

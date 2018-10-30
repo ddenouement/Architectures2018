@@ -13,8 +13,7 @@ namespace LabArchitectures.Model
 {
     class ApplicationStaticDB
     {
-         private static   List<User> Users = new List<User>();
-      //  private   ISessionContext sessionContext;
+         private static   List<User> Users = new List<User>(); 
       
 
         public static User GetUserByLogin(string l)

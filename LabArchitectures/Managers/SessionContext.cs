@@ -8,7 +8,7 @@ namespace LabArchitectures
 {
     public static class SessionContext
     {
-  public    static  Model.User CurrentUser { get; set; }
+        public static Model.User CurrentUser { get; set; }
         public static void LogOut()
         {
             CurrentUser = null;

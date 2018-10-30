@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace LabArchitectures.Model
 {
-  public  class Query
+    public class Query
     {
         private String _filePath;
         private DateTime _execDate;
+        private int _wordCnt;
+        private int _charCnt;
+        private int _lineCnt;
 
+        #region getset
         public DateTime ExecDate
         {
             get { return _execDate; }
@@ -22,24 +26,53 @@ namespace LabArchitectures.Model
             get { return _filePath; }
             set { _filePath = value; }
         }
+        public int WordCnt
+        {
+            get { return _wordCnt; }
+            set { _wordCnt = value; }
+        }
+        public int CharCnt
+        {
+            get { return _charCnt; }
+            set { _charCnt = value; }
+        }
+        public int LineCnt
+        {
+            get { return _lineCnt; }
+            set { _lineCnt = value; }
+        }
+        #endregion
         public override string ToString()
         {
-            return "Date: "+_execDate + "File: " + _filePath;
+            return "Date: " + _execDate + "File: " + _filePath + "Symbols: " + CharCnt + " Words: " + WordCnt + " Lines: " + LineCnt;
         }
-        public Query(DateTime d , string f , User user)  {
+        public Query(DateTime d, string f, string text)
+        {
             _filePath = f;
             _execDate = d;
-          //   user.AddQ(this); no need
+            GetResAndWrite(text);
         }
-        //reads text and returns staistics
-        public static string GetRes(string text)
+        //reads text and returns statistics
+        public string GetRes(string text)
         {
-             
-            int CharCount = text.Length;            
-            int LinesCount = text.Split('\r').Length;       
-            int WordsCount =  Regex.Matches(text, @"\b\w+\b").Count;//text.Split(' ').Length; 
-            String a = "Symbols: "+CharCount+" Words: "+WordsCount+" Lines: "+LinesCount;
+
+            int CharCount = text.Length;
+            int LinesCount = text.Split('\r').Length;
+            int WordsCount = Regex.Matches(text, @"\b\w+\b").Count;
+            String a = "Symbols: " + CharCount + " Words: " + WordsCount + " Lines: " + LinesCount;
             return a;
+        }
+        public void GetResAndWrite(string text)
+        {
+
+            int CharCount = text.Length;
+            int LinesCount = text.Split('\r').Length;
+            int WordsCount = Regex.Matches(text, @"\b\w+\b").Count;
+            // String a = "Symbols: " + CharCount + " Words: " + WordsCount + " Lines: " + LinesCount;
+            WordCnt = WordsCount;
+            CharCnt = CharCount;
+            LineCnt = LinesCount;
+
         }
 
     }

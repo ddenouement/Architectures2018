@@ -31,10 +31,11 @@ namespace LabArchitectures.View
         {
             Visibility = Visibility.Visible;
             _mainvm = new MainViewModel();
-            
+         //   _mainvm.QueryChanged += OnQueryChanged;
             DataContext = _mainvm;
         
         }
+         
 
     }
 }

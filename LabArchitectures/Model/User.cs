@@ -48,7 +48,7 @@ namespace LabArchitectures.Model
             {
                 return _queries;
             }
-            private  set
+            private set
             {
                 _queries = value;
             }
@@ -70,7 +70,7 @@ namespace LabArchitectures.Model
             {
                 return _password;
             }
-              set
+            set
             {
                 _password = value;
             }
@@ -81,40 +81,40 @@ namespace LabArchitectures.Model
             {
                 return _email;
             }
-              set
+            set
             {
                 _email = value;
             }
         }
         #endregion
 
-        public User(string firstName, string lastName, string email, string login, string password){
+        public User(string firstName, string lastName, string email, string login, string password)
+        {
             _firstName = firstName;
             _lastName = lastName;
             _email = email;
             _login = login;
             _lastLoginDate = DateTime.Now;
-            //  _password = password;
             _uniqueID = ApplicationStaticDB.GetNewID();
-             _password = EncryptPassword(password);
+            _password = EncryptPassword(password);
             _queries = new List<Query>();
         }
-         public void AddQ(Query q)
+        public void AddQ(Query q)
         {
             this._queries.Add(q);
-        } 
+        }
         public bool CheckPassword(string p)
         {
             try
-            { 
-                return (_password) == EncryptPassword( p);
+            {
+                return (_password) == EncryptPassword(p);
             }
             catch (Exception)
             {
                 return false;
             }
         }
-        private string  EncryptPassword(String p)
+        private string EncryptPassword(String p)
         {
             byte[] data = System.Text.Encoding.ASCII.GetBytes(p);
             data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);

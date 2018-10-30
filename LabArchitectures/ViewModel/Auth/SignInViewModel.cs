@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System; 
+using System.ComponentModel; 
+using System.Runtime.CompilerServices; 
 using System.Windows.Input;
 
 namespace LabArchitectures.ViewModel.Auth
 {
-    public class SignInViewModel :  INotifyPropertyChanged
+    public class SignInViewModel : INotifyPropertyChanged
     {
         private string _password;
         private string _login;
-
-       // private ICommand _closeCommand;
+        
         private ICommand _signInCommand;
         private ICommand _signUpCommand;
 
-         
+
         #region Commands
         public ICommand SignInCommand
         {
@@ -41,17 +36,17 @@ namespace LabArchitectures.ViewModel.Auth
             set
             {
                 _password = value;
-                OnPropertyChanged( );
+                OnPropertyChanged();
             }
         }
         public string Login
         {
             get { return _login; }
             set
-            { 
-                    _login = value;
-                    OnPropertyChanged( );
-                 
+            {
+                _login = value;
+                OnPropertyChanged();
+
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -63,14 +58,7 @@ namespace LabArchitectures.ViewModel.Auth
                 handler(this, new PropertyChangedEventArgs(propName));
             }
         }
-        /*
-        public event PropertyChangedEventHandler PropertyChanged;
-        //[NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }*/
-      public    SignInViewModel()
+        public SignInViewModel()
         {
         }
         private void SignUpExecute(object o)
@@ -86,12 +74,12 @@ namespace LabArchitectures.ViewModel.Auth
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Login Error :"+ex);
+                System.Windows.MessageBox.Show("Login Error :" + ex);
                 return;
             }
             if (currentUser == null)
             {
-                System.Windows.MessageBox.Show( _login+" - no such users!Error!");
+                System.Windows.MessageBox.Show(_login + " - no such users!Error!");
                 return;
             }
             try
@@ -104,17 +92,15 @@ namespace LabArchitectures.ViewModel.Auth
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Error!"+ ex);
+                System.Windows.MessageBox.Show("Error!" + ex);
                 return;
             }
-            //CommandBinding NewCmd = new CommandBinding();
-            //NewCmd.Command.Execute("parameter");
 
             SessionContext.CurrentUser = currentUser;
             System.Windows.MessageBox.Show("Login Successfull");
-             
-              NavManager.Instance.Navigate(ModesEnum.Main);
-             
+
+            NavManager.Instance.Navigate(ModesEnum.Main);
+
         }
 
         private bool SignInCanExecute(object obj)
@@ -122,7 +108,7 @@ namespace LabArchitectures.ViewModel.Auth
             return !String.IsNullOrWhiteSpace(_login) && !String.IsNullOrWhiteSpace(_password);
         }
 
-       
+
     }
 }
 

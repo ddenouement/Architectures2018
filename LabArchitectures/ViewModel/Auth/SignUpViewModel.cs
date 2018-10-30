@@ -116,6 +116,11 @@ namespace LabArchitectures.ViewModel.Auth
                     MessageBox.Show("Try up new name! This user already exists: "+ _login);
                     return;
                 }
+                if (!IsValidEmail (_email))
+                {
+                    MessageBox.Show("Not valid: " + _email);
+                    return;
+                }
                 currentUser = new User(_name, _lastname, _email, _login, _password);
                 ApplicationStaticDB.AddUser(currentUser);
                 SessionContext.CurrentUser = currentUser;
@@ -129,6 +134,18 @@ namespace LabArchitectures.ViewModel.Auth
             if (currentUser != null) NavManager.Instance.Navigate(ModesEnum.Main); else return;
         }
 
+        public bool IsValidEmail(string emailaddress)
+        {
+            try
+            {
+                System.Net.Mail.MailAddress m = new System.Net.Mail.MailAddress(emailaddress);
 
-    }
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+    } 
 }

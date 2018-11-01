@@ -20,13 +20,17 @@ namespace LabArchitectures
     /// </summary>
     public partial class MainWindow : ViewModel.IPageViewModel
     {
+        static String DataBaseSerializationFilePath = @"D:\word_count_db.txt";
+
         public MainWindow()
         {
             InitializeComponent();
             var navigationModel = new NavModel(this);
             NavManager.Instance.Initialize(navigationModel);
             navigationModel.Navigate(ModesEnum.SignIn);
-            Model.ApplicationStaticDB.AddUser(new Model.User("Julia", "Aleksandrova", "abrakadabra@gmail.com", "ddenouement", "12345"));
+            Model.ApplicationStaticDB.Deserialize(DataBaseSerializationFilePath);
+            //Model.ApplicationStaticDB.AddUser(new Model.User("Julia", "Aleksandrova", "abrakadabra@gmail.com", "ddenouement", "12345"));
+            //Model.ApplicationStaticDB.AddUser(new Model.User("test", "test", "test@gmail.com", "t", "t"));
         }
         public ContentControl ContentControl
         {
@@ -35,6 +39,7 @@ namespace LabArchitectures
     }
         void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Model.ApplicationStaticDB.Serialize(DataBaseSerializationFilePath);
             System.Windows.Application.Current.Shutdown();
         }
  

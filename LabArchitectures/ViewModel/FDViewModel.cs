@@ -1,7 +1,7 @@
-﻿using Microsoft.Win32; 
+﻿using Microsoft.Win32;
 using System.ComponentModel;
-using System.IO; 
-using System.Runtime.CompilerServices; 
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace LabArchitectures.ViewModel
@@ -61,7 +61,10 @@ namespace LabArchitectures.ViewModel
                 this.Name = fd.FileName;
                 return fd.OpenFile();
             }
-            else return null;
+            else
+            {
+                return null;
+            }
         }
 
     }

@@ -1,6 +1,6 @@
-﻿using System; 
-using System.ComponentModel; 
-using System.Runtime.CompilerServices; 
+﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace LabArchitectures.ViewModel.Auth
@@ -9,7 +9,7 @@ namespace LabArchitectures.ViewModel.Auth
     {
         private string _password;
         private string _login;
-        
+
         private ICommand _signInCommand;
         private ICommand _signUpCommand;
 

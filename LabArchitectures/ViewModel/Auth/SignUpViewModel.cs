@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LabArchitectures.Model;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,12 +11,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using LabArchitectures.Model;
-using Microsoft.Win32;
 
 namespace LabArchitectures.ViewModel.Auth
 {
-    class SignUpViewModel : INotifyPropertyChanged    {
+    class SignUpViewModel : INotifyPropertyChanged
+    {
         private string _password;
         private string _login;
         private string _email;
@@ -111,14 +112,14 @@ namespace LabArchitectures.ViewModel.Auth
             Model.User currentUser;
             try
             {
-                if (ApplicationStaticDB.GetUserByLogin(_login)!=null)
+                if (ApplicationStaticDB.GetUserByLogin(_login) != null)
                 {
-                    MessageBox.Show("Try up new name! This user already exists: "+ _login);
+                    MessageBox.Show("Try up new name! This user already exists: " + _login);
                     return;
                 }
-                if (!IsValidEmail (_email))
+                if (!IsValidEmail(_email))
                 {
-                    MessageBox.Show("Not valid: " + _email);
+                    MessageBox.Show("Invalid e-mail: " + _email);
                     return;
                 }
                 currentUser = new User(_name, _lastname, _email, _login, _password);
@@ -128,10 +129,17 @@ namespace LabArchitectures.ViewModel.Auth
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error!" + ex);
+                MessageBox.Show("Error! " + ex);
                 return;
             }
-            if (currentUser != null) NavManager.Instance.Navigate(ModesEnum.Main); else return;
+            if (currentUser != null)
+            {
+                NavManager.Instance.Navigate(ModesEnum.Main);
+            }
+            else
+            {
+                return;
+            }
         }
 
         public bool IsValidEmail(string emailaddress)
@@ -147,5 +155,5 @@ namespace LabArchitectures.ViewModel.Auth
                 return false;
             }
         }
-    } 
+    }
 }

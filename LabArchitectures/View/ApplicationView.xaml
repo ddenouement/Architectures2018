@@ -30,5 +30,5 @@
 
         <ContentControl Content="{Binding CurrentPageViewModel}" />
     </DockPanel>
-     
+
 </Window>

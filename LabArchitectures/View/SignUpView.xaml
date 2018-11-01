@@ -42,7 +42,7 @@
         <TextBlock Grid.Column="1" Grid.Row="1" Text="Your Login:" FontWeight="Bold" HorizontalAlignment="Left" FontSize="30" Margin="9,0,0,0" Width="212"/>
         <TextBlock Text="Your Password:" Grid.Column="1" Grid.Row="2" FontWeight="Bold" HorizontalAlignment="Left" FontSize="30" Margin="9,0,0,0" Width="284"/>
         <TextBlock Text="Your Name:" Grid.Column="1" Grid.Row="3" FontWeight="Bold" HorizontalAlignment="Left" FontSize="30" Margin="9,0,0,0" Width="219"/>
-        <TextBlock Grid.Column="1" Grid.Row="4" FontWeight="Bold" HorizontalAlignment="Left" FontSize="30" Margin="9,0,0,63.8" Grid.RowSpan="2" Width="298"><Run Text="Your Last "/><Run Text="Т"/><Run Text="ame:"/></TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="4" FontWeight="Bold" HorizontalAlignment="Left" FontSize="30" Margin="9,0,0,63.8" Grid.RowSpan="2" Width="298" Text="Your Last Name:"/>
         <TextBlock Text="Your Email:" Grid.Column="1" Grid.Row="5" FontWeight="Bold" HorizontalAlignment="Left" FontSize="30" Margin="9,0.2,0,64.6" Grid.RowSpan="2" Width="210"/>
         <Button Grid.Column="2" Grid.Row="6" Content="Sign Up" FontWeight="Bold" FontSize="30"  Command="{Binding SignUpCommand}" Background="{DynamicResource Green}" Margin="4"/>
         <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Content="Sign In" FontWeight="Bold" FontSize="30" Background="{DynamicResource Blue}" Command="{Binding SignInCommand}" Margin="4"/>

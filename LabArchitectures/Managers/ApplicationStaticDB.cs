@@ -1,20 +1,20 @@
-﻿using System;
+﻿using LabArchitectures.Model;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using LabArchitectures.Model;
-using Microsoft.Win32;
-using System.IO;
 
 namespace LabArchitectures.Model
 {
     class ApplicationStaticDB
     {
-         private static   List<User> Users = new List<User>(); 
-      
+        private static List<User> Users = new List<User>();
+
 
         public static User GetUserByLogin(string l)
         {
@@ -27,7 +27,7 @@ namespace LabArchitectures.Model
         }
         public static bool GetUserByID(int a)
         {
-            return Users.Where(i => i.ID == a).FirstOrDefault()!=null;
+            return Users.Where(i => i.ID == a).FirstOrDefault() != null;
         }
         public static int GetNewID()
         {

@@ -112,9 +112,8 @@ namespace LabArchitectures.ViewModel
             {
                 OpenFile();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
                 return;
             }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LabArchitectures.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,10 +28,12 @@ namespace LabArchitectures
             InitializeComponent();
             var navigationModel = new NavModel(this);
             NavManager.Instance.Initialize(navigationModel);
-            navigationModel.Navigate(ModesEnum.SignIn);
+
+            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
+            DataContext = mainWindowViewModel;
+
             Model.ApplicationStaticDB.Deserialize(DataBaseSerializationFilePath);
-            //Model.ApplicationStaticDB.AddUser(new Model.User("Julia", "Aleksandrova", "abrakadabra@gmail.com", "ddenouement", "12345"));
-            //Model.ApplicationStaticDB.AddUser(new Model.User("test", "test", "test@gmail.com", "t", "t"));
+            mainWindowViewModel.StartApplication();
         }
         public ContentControl ContentControl
         {

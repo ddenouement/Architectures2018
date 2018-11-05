@@ -1,10 +1,15 @@
 ﻿<Window x:Class="LabArchitectures.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Text counter" Height="500" Width="800"
-        Closing="Window_Closing">
-     
-    <ContentControl Name="_contentControl">
-
-    </ContentControl>
+        Closing="Window_Closing" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:fa="http://schemas.fontawesome.io/icons/">
+    
+    <Grid>
+        <ContentControl Name="_contentControl" IsEnabled="{Binding Path=IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <fa:ImageAwesome Name="ImageAwesome"  Icon="Refresh" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Spin="True" Visibility="{Binding Path=LoaderVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
 </Window>

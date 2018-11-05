@@ -1,4 +1,5 @@
-﻿using LabArchitectures.Model;
+﻿using LabArchitectures.Managers;
+using LabArchitectures.Model;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -69,9 +70,10 @@ namespace LabArchitectures.ViewModel
                 OnPropertyChanged();
             }
         }
+
+
         public MainViewModel()
         {
-
             _queries = new ObservableCollection<Query>();
             UpdCurrUser();
             FillQueries();
@@ -106,20 +108,26 @@ namespace LabArchitectures.ViewModel
             MessageBox.Show(t);
 
         }
-        public void ReadFileExecute(object obj)
+        public async void ReadFileExecute(object obj)
         {
-            try
+            LoaderManager.Instance.ShowLoader();
+            var result = await Task.Run(() =>
             {
-                OpenFile();
-            }
-            catch (Exception)
-            {
-                return;
-            }
+                try
+                {
+                    OpenFile();
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
 
-            _currentQuery = new Query(DateTime.Now, FileName, FileText);
-            MessageBox.Show(_currentQuery + "");
-            if (_currentQuery != null)
+                _currentQuery = new Query(DateTime.Now, FileName, FileText);
+                MessageBox.Show(_currentQuery + "");
+                return true;
+            });
+            LoaderManager.Instance.HideLoader();
+            if (result)
             {
                 _queries.Add(_currentQuery);//local
                 _currentUser.AddQ(_currentQuery);//save for user
@@ -130,7 +138,7 @@ namespace LabArchitectures.ViewModel
             SessionContext.LogOut();
             UpdCurrUser();
             NavManager.Instance.Navigate(ModesEnum.SignIn);
-
+            
         }
         private void OpenFile()
         {

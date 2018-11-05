@@ -1,4 +1,5 @@
-﻿using LabArchitectures.Model;
+﻿using LabArchitectures.Managers;
+using LabArchitectures.Model;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -107,39 +108,39 @@ namespace LabArchitectures.ViewModel.Auth
         {
             NavManager.Instance.Navigate(ModesEnum.SignIn);
         }
-        private void SignUpExecute(object o)
+        private async void SignUpExecute(object o)
         {
-            Model.User currentUser;
-            try
+            LoaderManager.Instance.ShowLoader();
+            var result = await Task.Run(() =>
             {
-                if (ApplicationStaticDB.GetUserByLogin(_login) != null)
+                Model.User currentUser;
+                try
                 {
-                    MessageBox.Show("Try up new name! This user already exists: " + _login);
-                    return;
+                    if (ApplicationStaticDB.GetUserByLogin(_login) != null)
+                    {
+                        MessageBox.Show("Try up new name! This user already exists: " + _login);
+                        return false;
+                    }
+                    if (!IsValidEmail(_email))
+                    {
+                        MessageBox.Show("Invalid e-mail: " + _email);
+                        return false;
+                    }
+                    currentUser = new User(_name, _lastname, _email, _login, _password);
+                    ApplicationStaticDB.AddUser(currentUser);
+                    SessionContext.CurrentUser = currentUser;
+                    return true;
                 }
-                if (!IsValidEmail(_email))
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Invalid e-mail: " + _email);
-                    return;
+                    MessageBox.Show("Error! " + ex);
+                    return false;
                 }
-                currentUser = new User(_name, _lastname, _email, _login, _password);
-                ApplicationStaticDB.AddUser(currentUser);
-                SessionContext.CurrentUser = currentUser;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error! " + ex);
-                return;
-            }
-            if (currentUser != null)
-            {
+            });
+            LoaderManager.Instance.HideLoader();
+            if (result)
                 NavManager.Instance.Navigate(ModesEnum.Main);
-            }
-            else
-            {
-                return;
-            }
+
         }
 
         public bool IsValidEmail(string emailaddress)

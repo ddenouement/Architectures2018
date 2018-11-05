@@ -32,7 +32,9 @@ namespace LabArchitectures
             {
                 //If object is already initialized, then return it
                 if (_instance != null)
+                {
                     return _instance;
+                }
                 //Lock operator for threads synchrnization, in case few threads 
                 //will try to initialize Instance at the same time
                 lock (Lock)

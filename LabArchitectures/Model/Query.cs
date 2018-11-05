@@ -7,49 +7,50 @@ using System.Threading.Tasks;
 
 namespace LabArchitectures.Model
 {
+    [Serializable()]
     public class Query
     {
-        private String _filePath;
-        private DateTime _execDate;
-        private int _wordCnt;
-        private int _charCnt;
-        private int _lineCnt;
+        private String filePath;
+        private DateTime execDate;
+        private int wordCnt;
+        private int charCnt;
+        private int lineCnt;
 
         #region getset
         public DateTime ExecDate
         {
-            get { return _execDate; }
-            set { _execDate = value; }
+            get { return execDate; }
+            set { execDate = value; }
         }
         public string FilePath
         {
-            get { return _filePath; }
-            set { _filePath = value; }
+            get { return filePath; }
+            set { filePath = value; }
         }
         public int WordCnt
         {
-            get { return _wordCnt; }
-            set { _wordCnt = value; }
+            get { return wordCnt; }
+            set { wordCnt = value; }
         }
         public int CharCnt
         {
-            get { return _charCnt; }
-            set { _charCnt = value; }
+            get { return charCnt; }
+            set { charCnt = value; }
         }
         public int LineCnt
         {
-            get { return _lineCnt; }
-            set { _lineCnt = value; }
+            get { return lineCnt; }
+            set { lineCnt = value; }
         }
         #endregion
         public override string ToString()
         {
-            return "Date: " + _execDate + "File: " + _filePath + "Symbols: " + CharCnt + " Words: " + WordCnt + " Lines: " + LineCnt;
+            return "Date: " + execDate + "File: " + filePath + "Symbols: " + CharCnt + " Words: " + WordCnt + " Lines: " + LineCnt;
         }
         public Query(DateTime d, string f, string text)
         {
-            _filePath = f;
-            _execDate = d;
+            filePath = f;
+            execDate = d;
             GetResAndWrite(text);
         }
         //reads text and returns statistics

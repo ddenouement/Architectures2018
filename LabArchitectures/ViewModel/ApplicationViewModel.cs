@@ -1,6 +1,7 @@
 ﻿
 
-namespace LabArchitectures.ViewModel {
+namespace LabArchitectures.ViewModel
+{
     class ApplicationViewModel
     {
 

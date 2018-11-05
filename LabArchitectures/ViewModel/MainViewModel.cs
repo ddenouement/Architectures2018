@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LabArchitectures.Model;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,8 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using LabArchitectures.Model;
-using Microsoft.Win32;
 
 namespace LabArchitectures.ViewModel
 {
@@ -112,9 +112,8 @@ namespace LabArchitectures.ViewModel
             {
                 OpenFile();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
                 return;
             }
 
@@ -141,7 +140,9 @@ namespace LabArchitectures.ViewModel
             fdvm.OpenFileCommand.Execute(null);
 
             if (fdvm.Stream == null)
+            {
                 throw new IOException("Error in reading this file");
+            }
 
             using (StreamReader sr = new StreamReader(fdvm.Stream, Encoding.ASCII))
             {
@@ -152,7 +153,9 @@ namespace LabArchitectures.ViewModel
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == "SelectedQuery")
+            {
                 OnQueryChanged(_selectedQuery);
+            }
         }
 
         #region Loader

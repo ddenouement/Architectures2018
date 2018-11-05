@@ -6,27 +6,28 @@ using System.Threading.Tasks;
 
 namespace LabArchitectures.Model
 {
+    [Serializable()]
     public class User
     {
-        private string _firstName;
-        private string _lastName;
-        private string _email;
-        private string _login;
-        private string _password;
-        private DateTime _lastLoginDate;
-        private List<Query> _queries;
-        public int _uniqueID;
+        private string firstName;
+        private string lastName;
+        private string email;
+        private string login;
+        private string password;
+        private DateTime lastLoginDate;
+        private List<Query> queries;
+        public int uniqueID;
 
         #region Properties
         private DateTime LastLoginDate
         {
             get
             {
-                return _lastLoginDate;
+                return lastLoginDate;
             }
             set
             {
-                _lastLoginDate = value;
+                lastLoginDate = value;
             }
         }
 
@@ -34,11 +35,11 @@ namespace LabArchitectures.Model
         {
             get
             {
-                return _uniqueID;
+                return uniqueID;
             }
             set
             {
-                _uniqueID = value;
+                uniqueID = value;
             }
         }
 
@@ -46,68 +47,68 @@ namespace LabArchitectures.Model
         {
             get
             {
-                return _queries;
+                return queries;
             }
             private set
             {
-                _queries = value;
+                queries = value;
             }
         }
         public string Login
         {
             get
             {
-                return _login;
+                return login;
             }
             private set
             {
-                _login = value;
+                login = value;
             }
         }
         private string Password
         {
             get
             {
-                return _password;
+                return password;
             }
             set
             {
-                _password = value;
+                password = value;
             }
         }
         public string Email
         {
             get
             {
-                return _email;
+                return email;
             }
             set
             {
-                _email = value;
+                email = value;
             }
         }
         #endregion
 
         public User(string firstName, string lastName, string email, string login, string password)
         {
-            _firstName = firstName;
-            _lastName = lastName;
-            _email = email;
-            _login = login;
-            _lastLoginDate = DateTime.Now;
-            _uniqueID = ApplicationStaticDB.GetNewID();
-            _password = EncryptPassword(password);
-            _queries = new List<Query>();
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.login = login;
+            lastLoginDate = DateTime.Now;
+            uniqueID = ApplicationStaticDB.GetNewID();
+            this.password = EncryptPassword(password);
+            queries = new List<Query>();
         }
         public void AddQ(Query q)
         {
-            this._queries.Add(q);
+            this.queries.Add(q);
         }
         public bool CheckPassword(string p)
         {
             try
             {
-                return (_password) == EncryptPassword(p);
+                return (password) == EncryptPassword(p);
             }
             catch (Exception)
             {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LabArchitectures.Managers
+namespace LabArchitectures.Tools
 {
     /// <summary>
     /// Utility for logging

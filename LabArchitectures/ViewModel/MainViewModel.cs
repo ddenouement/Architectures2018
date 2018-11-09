@@ -106,7 +106,7 @@ namespace LabArchitectures.ViewModel
                 t += "\n";
             }
             MessageBox.Show(t);
-
+            Logger.Log("User " + _currentUser.ID + " viewed query history");
         }
         public async void ReadFileExecute(object obj)
         {
@@ -123,6 +123,7 @@ namespace LabArchitectures.ViewModel
                 }
 
                 _currentQuery = new Query(DateTime.Now, FileName, FileText);
+                Logger.Log("User " + _currentUser.ID + " queried file " + FileName + "\n" + _currentQuery.WordCnt + " words, " + _currentQuery.LineCnt + " lines");
                 MessageBox.Show(_currentQuery + "");
                 return true;
             });
@@ -138,7 +139,7 @@ namespace LabArchitectures.ViewModel
             SessionContext.LogOut();
             UpdCurrUser();
             NavManager.Instance.Navigate(ModesEnum.SignIn);
-            
+
         }
         private void OpenFile()
         {

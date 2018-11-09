@@ -1,4 +1,5 @@
-﻿using LabArchitectures.ViewModel;
+﻿using LabArchitectures.Managers;
+using LabArchitectures.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +22,24 @@ namespace LabArchitectures
     /// </summary>
     public partial class MainWindow : ViewModel.IPageViewModel
     {
-        static String DataBaseSerializationFilePath = @"D:\word_count_db.txt";
+        public const String DataBaseSerializationFilePath = @"D:\word_count_db.txt";
+        public const String LogfilePath = @"D:\word_count_logs.txt";
 
         public MainWindow()
         {
             InitializeComponent();
             var navigationModel = new NavModel(this);
             NavManager.Instance.Initialize(navigationModel);
+            Logger.Log("NavManager Initialized");
 
             MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
             DataContext = mainWindowViewModel;
+            Logger.Log("DataContext initialized");
 
             Model.ApplicationStaticDB.Deserialize(DataBaseSerializationFilePath);
+
             mainWindowViewModel.StartApplication();
+            Logger.Log("Application started");
         }
         public ContentControl ContentControl
         {
@@ -43,6 +49,7 @@ namespace LabArchitectures
         void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Model.ApplicationStaticDB.Serialize(DataBaseSerializationFilePath);
+            Logger.Log("Application shut down");
             System.Windows.Application.Current.Shutdown();
         }
  

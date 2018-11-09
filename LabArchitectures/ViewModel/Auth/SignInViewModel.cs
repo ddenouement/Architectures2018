@@ -103,6 +103,7 @@ namespace LabArchitectures.ViewModel.Auth
                 }
 
                 SessionContext.CurrentUser = currentUser;
+                Logger.Log("User " + currentUser.ID + " signed in");
                 return true;
             });
             LoaderManager.Instance.HideLoader();

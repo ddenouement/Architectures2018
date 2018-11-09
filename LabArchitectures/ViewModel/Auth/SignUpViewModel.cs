@@ -1,5 +1,6 @@
 ﻿using LabArchitectures.Managers;
 using LabArchitectures.Model;
+using LabArchitectures.Tools;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -129,6 +130,7 @@ namespace LabArchitectures.ViewModel.Auth
                     currentUser = new User(_name, _lastname, _email, _login, _password);
                     ApplicationStaticDB.AddUser(currentUser);
                     SessionContext.CurrentUser = currentUser;
+                    Logger.Log("User " + currentUser.ID + " signed up");
                     return true;
                 }
                 catch (Exception ex)

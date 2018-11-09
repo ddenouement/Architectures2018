@@ -1,4 +1,5 @@
-﻿using LabArchitectures.Model;
+﻿using LabArchitectures.Tools;
+using LabArchitectures.Model;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace LabArchitectures.Model
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(fs, Users);
             }
+            Logger.Log("Database saved to " + filePath);
 
         }
 
@@ -52,14 +54,15 @@ namespace LabArchitectures.Model
         {
             if (!File.Exists(filePath))
             {
+                Logger.LogErr("failed to load database, file " + filePath + " doesn't exist");
                 return;
             }
-            //throw new FileNotFoundException();
             using (FileStream fs = File.Open(filePath, FileMode.Open))
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 Users = (List<User>)bf.Deserialize(fs);
             }
+            Logger.Log("Database loaded from " + filePath);
         }
     }
 }

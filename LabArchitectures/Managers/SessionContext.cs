@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LabArchitectures.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace LabArchitectures
         public static Model.User CurrentUser { get; set; }
         public static void LogOut()
         {
+            Logger.Log(CurrentUser.ID + " logged out");
             CurrentUser = null;
         }
     }

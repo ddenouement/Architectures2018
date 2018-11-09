@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using LabArchitectures.Tools;
 using LabArchitectures.Managers;
 
 namespace LabArchitectures.ViewModel.Auth
@@ -103,6 +104,7 @@ namespace LabArchitectures.ViewModel.Auth
                 }
 
                 SessionContext.CurrentUser = currentUser;
+                Logger.Log("User " + currentUser.ID + " signed in");
                 return true;
             });
             LoaderManager.Instance.HideLoader();

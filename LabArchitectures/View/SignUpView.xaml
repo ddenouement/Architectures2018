@@ -20,10 +20,10 @@
         <SolidColorBrush x:Key="Blue" Color="Blue"/>
 
         <SolidColorBrush x:Key="Yellow" Color="Gold"/>
-        <SolidColorBrush x:Key="LightBlue" Color="Orange"/>
+        <SolidColorBrush x:Key="LightBlue" Color="LightGoldenrodYellow"/>
     </UserControl.Resources>
 
-    <Grid Background="Orange">
+    <Grid Background="LightGoldenrodYellow">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>

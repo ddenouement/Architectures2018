@@ -17,7 +17,7 @@
     <UserControl.DataContext>
         <ViewModel:SignInViewModel x:Name="_model" />
     </UserControl.DataContext>
-    <Grid x:Name="LoginLayer" Background="Orange" >
+    <Grid x:Name="LoginLayer" Background="LightGoldenrodYellow" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="43*"/>

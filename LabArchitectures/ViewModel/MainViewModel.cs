@@ -80,17 +80,24 @@ namespace LabArchitectures.ViewModel
             FillQueries();
 
             PropertyChanged += OnPropertyChanged;
-        }
-        private void FillQueries()
+        } 
+            private async void FillQueries()
         {
-            foreach (var wallet in _currentUser.Queries)
+            LoaderManager.Instance.ShowLoader();
+            var result = await Task.Run(() =>
             {
-                _queries.Add(wallet);
-            }
-            if (_queries.Count > 0)
-            {
-                _selectedQuery = Queries[0];
-            }
+                foreach (var wallet in _currentUser.Queries)
+                {
+                    _queries.Add(wallet);
+                }
+                if (_queries.Count > 0)
+                {
+                    _selectedQuery = Queries[0];
+                }
+                return true;
+            });
+            LoaderManager.Instance.HideLoader();
+
         }
         public void UpdCurrUser()
         {

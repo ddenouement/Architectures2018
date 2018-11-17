@@ -100,11 +100,11 @@ namespace LabArchitectures.Model
                 HasKey(s => s.uniqueID);
 
                 Property(p => p.lastName).HasColumnName("LastName").IsRequired();
-                Property(p => p.firstName).HasColumnName("firstName").IsRequired();
-                Property(p => p.email).HasColumnName("email").IsRequired();
-                Property(p => p.login).HasColumnName("login").IsRequired();
-                Property(p => p.password).HasColumnName("password").IsRequired();
-                Property(p => p.lastLoginDate).HasColumnName("lastLoginDate").IsRequired();
+                Property(p => p.firstName).HasColumnName("FirstName").IsRequired();
+                Property(p => p.Email).HasColumnName("Email").IsRequired();
+                Property(p => p.Login).HasColumnName("Login").IsRequired();
+                Property(p => p.Password).HasColumnName("Password").IsRequired();
+                Property(p => p.LastLoginDate).HasColumnName("LastLoginDate").IsRequired();
 
                 HasMany(u => u.Queries).WithRequired(q => q.User).HasForeignKey(q => q.UserID).WillCascadeOnDelete(true);
             }

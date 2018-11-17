@@ -130,7 +130,7 @@ namespace LabArchitectures.ViewModel
                     return false;
                 }
 
-                _currentQuery = new Query(DateTime.Now, FileName, FileText);
+                _currentQuery = new Query(DateTime.Now, FileName, FileText, _currentUser);
                 Logger.Log("User " + _currentUser.ID + " queried file " + FileName + "\n" + _currentQuery.WordCnt + " words, " + _currentQuery.LineCnt + " lines");
                 MessageBox.Show(_currentQuery + "");
                 return true;

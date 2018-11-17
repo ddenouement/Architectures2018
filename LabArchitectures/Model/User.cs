@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,6 +88,28 @@ namespace LabArchitectures.Model
                 email = value;
             }
         }
+        #endregion
+
+
+        #region EntityConfiguration
+        public class UserEntityConfiguration : EntityTypeConfiguration<User>
+        {
+            UserEntityConfiguration()
+            {
+                ToTable("Users");
+                HasKey(s => s.uniqueID);
+
+                Property(p => p.lastName).HasColumnName("LastName").IsRequired();
+                Property(p => p.firstName).HasColumnName("firstName").IsRequired();
+                Property(p => p.email).HasColumnName("email").IsRequired();
+                Property(p => p.login).HasColumnName("login").IsRequired();
+                Property(p => p.password).HasColumnName("password").IsRequired();
+                Property(p => p.lastLoginDate).HasColumnName("lastLoginDate").IsRequired();
+
+                HasMany(u => u.Queries).WithRequired(q => q.User).HasForeignKey(q => q.UserID).WillCascadeOnDelete(true);
+            }
+        }
+
         #endregion
 
         public User(string firstName, string lastName, string email, string login, string password)

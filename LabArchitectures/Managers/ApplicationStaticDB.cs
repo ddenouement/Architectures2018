@@ -40,10 +40,10 @@ namespace LabArchitectures.Model
         {
             String directoryName = Path.GetDirectoryName(filePath);
             Directory.CreateDirectory(directoryName);
+            BinaryFormatter bf = new BinaryFormatter();
 
             using (FileStream fs = File.Open(filePath, FileMode.Create))
             {
-                BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(fs, Users);
             }
             Logger.Log("Database saved to " + filePath);
@@ -57,9 +57,9 @@ namespace LabArchitectures.Model
                 Logger.LogErr("failed to load database, file " + filePath + " doesn't exist");
                 return;
             }
+            BinaryFormatter bf = new BinaryFormatter();
             using (FileStream fs = File.Open(filePath, FileMode.Open))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
+            {   
                 Users = (List<User>)bf.Deserialize(fs);
             }
             Logger.Log("Database loaded from " + filePath);

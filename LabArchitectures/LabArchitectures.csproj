@@ -70,10 +70,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DB\Migrations\InitialMigration.cs" />
     <Compile Include="Managers\LoaderManager.cs" />
     <Compile Include="Tools\Logger.cs" />
     <Compile Include="Managers\SessionContext.cs" />
-    <Compile Include="Managers\ApplicationStaticDB.cs" />
+    <Compile Include="DB\ApplicationStaticDB.cs" />
     <Compile Include="Managers\NavManager.cs" />
     <Compile Include="Tools\ILoaderOwner.cs" />
     <Compile Include="Tools\NavModel.cs" />
@@ -168,6 +169,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

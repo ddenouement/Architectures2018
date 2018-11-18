@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace LabArchitectures.Model
+namespace LabArchitectures.DB
 {
     static class ApplicationStaticDB
     {

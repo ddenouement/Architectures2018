@@ -36,7 +36,7 @@ namespace LabArchitectures
             DataContext = mainWindowViewModel;
             Logger.Log("DataContext initialized");
 
-            Model.ApplicationStaticDB.Deserialize(DataBaseSerializationFilePath);
+            DB.ApplicationStaticDB.Deserialize(DataBaseSerializationFilePath);
 
             mainWindowViewModel.StartApplication();
             Logger.Log("Application started");
@@ -48,7 +48,7 @@ namespace LabArchitectures
     }
         void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Model.ApplicationStaticDB.Serialize(DataBaseSerializationFilePath);
+            DB.ApplicationStaticDB.Serialize(DataBaseSerializationFilePath);
             Logger.Log("Application shut down");
             System.Windows.Application.Current.Shutdown();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
+using LabArchitectures.DB;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,17 @@ namespace LabArchitectures.Model
         public int uniqueID;
 
         #region Properties
+
+        public string FirstName
+        {
+            get; set;
+        }
+
+        public string LastName
+        {
+            get; set;
+        }
+
         private DateTime LastLoginDate
         {
             get
@@ -99,8 +111,9 @@ namespace LabArchitectures.Model
                 ToTable("Users");
                 HasKey(s => s.uniqueID);
 
-                Property(p => p.lastName).HasColumnName("LastName").IsRequired();
-                Property(p => p.firstName).HasColumnName("FirstName").IsRequired();
+                Property(u => u.ID).HasColumnName("UserID").IsRequired();
+                Property(p => p.LastName).HasColumnName("LastName").IsRequired();
+                Property(p => p.FirstName).HasColumnName("FirstName").IsRequired();
                 Property(p => p.Email).HasColumnName("Email").IsRequired();
                 Property(p => p.Login).HasColumnName("Login").IsRequired();
                 Property(p => p.Password).HasColumnName("Password").IsRequired();

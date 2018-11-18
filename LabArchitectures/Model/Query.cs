@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LabArchitectures.DB;
 
 namespace LabArchitectures.Model
 {
     [Serializable()]
     public class Query
     {
+        private int _id;
         private String filePath;
         private DateTime execDate;
         private int wordCnt;
         private int charCnt;
         private int lineCnt;
+        private User _user;
 
-        #region getset
+        #region Properties
         public DateTime ExecDate
         {
             get { return execDate; }
@@ -42,16 +46,52 @@ namespace LabArchitectures.Model
             get { return lineCnt; }
             set { lineCnt = value; }
         }
+
+        public int UserID
+        {
+            get { return _user.ID; }
+            set { _user.ID = value; }
+        }
+        public User User
+        {
+            get { return _user; }
+            set { _user = value; }
+        }
         #endregion
+
+
+        #region EntityConfiguration
+
+        public class QueryEntityConfiguration: EntityTypeConfiguration<Query>
+        {
+            QueryEntityConfiguration()
+            {
+                ToTable("Queries");
+                HasKey(q => q.UserID);
+
+                Property(q => q.UserID).HasColumnName("UserID").IsRequired();
+                Property(q => q.FilePath).HasColumnName("FilePath").IsRequired();
+                Property(q => q.ExecDate).HasColumnName("ExecDate").IsRequired();
+                Property(q => q.WordCnt).HasColumnName("WordCnt").IsRequired();
+                Property(q => q.CharCnt).HasColumnName("CharCnt").IsRequired();
+                Property(q => q.LineCnt).HasColumnName("LineCnt").IsRequired();
+                
+            }
+        }
+
+        #endregion
+
+
         public override string ToString()
         {
             return "Date: " + execDate + "File: " + filePath + "Symbols: " + CharCnt + " Words: " + WordCnt + " Lines: " + LineCnt;
         }
-        public Query(DateTime d, string f, string text)
+        public Query(DateTime d, string f, string text, User user)
         {
             filePath = f;
             execDate = d;
             GetResAndWrite(text);
+            _user = user;
         }
         //reads text and returns statistics
         public string GetRes(string text)
@@ -73,7 +113,7 @@ namespace LabArchitectures.Model
             WordCnt = WordsCount;
             CharCnt = CharCount;
             LineCnt = LinesCount;
-
+            _id = ApplicationStaticDB.GetNewID();
         }
 
     }

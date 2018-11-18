@@ -77,7 +77,7 @@ namespace LabArchitectures.ViewModel.Auth
                 Model.User currentUser;
                 try
                 {
-                    currentUser = Model.ApplicationStaticDB.GetUserByLogin(_login);
+                    currentUser = DB.ApplicationStaticDB.GetUserByLogin(_login);
                 }
                 catch (Exception ex)
                 {

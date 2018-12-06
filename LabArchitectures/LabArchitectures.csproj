@@ -70,6 +70,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DB\Configuration.cs" />
+    <Compile Include="DB\DBContext.cs" />
+    <Compile Include="DB\GenericEntityWrapper.cs" />
     <Compile Include="DB\Migrations\InitialMigration.cs" />
     <Compile Include="Managers\LoaderManager.cs" />
     <Compile Include="Tools\Logger.cs" />
@@ -79,6 +82,8 @@
     <Compile Include="Tools\ILoaderOwner.cs" />
     <Compile Include="Tools\NavModel.cs" />
     <Compile Include="Tools\RelayCommand.cs" />
+    <Compile Include="Tools\Serializer.cs" />
+    <Compile Include="Tools\StaticResources.cs" />
     <Compile Include="ViewModel\Auth\SignInViewModel.cs" />
     <Compile Include="ViewModel\Auth\SignUpViewModel.cs" />
     <Compile Include="ViewModel\FDViewModel.cs" />
@@ -171,12 +176,6 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

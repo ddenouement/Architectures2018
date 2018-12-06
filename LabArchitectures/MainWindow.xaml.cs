@@ -1,4 +1,6 @@
-﻿using LabArchitectures.Tools;
+﻿using LabArchitectures.DB;
+using LabArchitectures.Model;
+using LabArchitectures.Tools;
 using LabArchitectures.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,7 @@ namespace LabArchitectures
 
         public MainWindow()
         {
+
             InitializeComponent();
             var navigationModel = new NavModel(this);
             NavManager.Instance.Initialize(navigationModel);
@@ -36,10 +39,13 @@ namespace LabArchitectures
             DataContext = mainWindowViewModel;
             Logger.Log("DataContext initialized");
 
-            DB.ApplicationStaticDB.Deserialize(DataBaseSerializationFilePath);
+            //   DB.ApplicationStaticDB.Deserialize(DataBaseSerializationFilePath);
 
-            mainWindowViewModel.StartApplication();
+           mainWindowViewModel.StartApplication();
             Logger.Log("Application started");
+            
+
+
         }
         public ContentControl ContentControl
         {
@@ -48,7 +54,8 @@ namespace LabArchitectures
     }
         void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            DB.ApplicationStaticDB.Serialize(DataBaseSerializationFilePath);
+         //   DB.ApplicationStaticDB.Serialize(DataBaseSerializationFilePath);
+           // Serialize
             Logger.Log("Application shut down");
             System.Windows.Application.Current.Shutdown();
         }

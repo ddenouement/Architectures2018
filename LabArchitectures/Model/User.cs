@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
-using LabArchitectures.DB;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using System.Runtime.Serialization;
 
 namespace LabArchitectures.Model
 {
     [Serializable()]
+    //[DataContract(IsReference = true)]
     public class User
     {
         private string firstName;
@@ -18,7 +17,7 @@ namespace LabArchitectures.Model
         private string password;
         private DateTime lastLoginDate;
         private List<Query> queries;
-        public int uniqueID;
+        public Guid Id { get; set; }
 
         #region Properties
 
@@ -32,7 +31,7 @@ namespace LabArchitectures.Model
             get; set;
         }
 
-        private DateTime LastLoginDate
+        public DateTime LastLoginDate
         {
             get
             {
@@ -44,17 +43,7 @@ namespace LabArchitectures.Model
             }
         }
 
-        public int ID
-        {
-            get
-            {
-                return uniqueID;
-            }
-            set
-            {
-                uniqueID = value;
-            }
-        }
+        
 
         public List<Query> Queries
         {
@@ -106,12 +95,12 @@ namespace LabArchitectures.Model
         #region EntityConfiguration
         public class UserEntityConfiguration : EntityTypeConfiguration<User>
         {
-            UserEntityConfiguration()
+          public  UserEntityConfiguration()
             {
                 ToTable("Users");
-                HasKey(s => s.uniqueID);
+                HasKey(s => s.Id);
 
-                Property(u => u.ID).HasColumnName("UserID").IsRequired();
+              //  Property(u => u.Id).HasColumnName("Id").IsRequired();
                 Property(p => p.LastName).HasColumnName("LastName").IsRequired();
                 Property(p => p.FirstName).HasColumnName("FirstName").IsRequired();
                 Property(p => p.Email).HasColumnName("Email").IsRequired();
@@ -119,22 +108,26 @@ namespace LabArchitectures.Model
                 Property(p => p.Password).HasColumnName("Password").IsRequired();
                 Property(p => p.LastLoginDate).HasColumnName("LastLoginDate").IsRequired();
 
-                HasMany(u => u.Queries).WithRequired(q => q.User).HasForeignKey(q => q.UserID).WillCascadeOnDelete(true);
+                HasMany(u => u.Queries).WithRequired(q => q.User).HasForeignKey(q => q.UserId).WillCascadeOnDelete(true);
             }
         }
 
         #endregion
-
-        public User(string firstName, string lastName, string email, string login, string password)
+        public User()
         {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.login = login;
-            lastLoginDate = DateTime.Now;
-            uniqueID = ApplicationStaticDB.GetNewID();
-            this.password = EncryptPassword(password);
-            queries = new List<Query>();
+
+        }
+        public User(string f, string l, string email, string login, string password)
+        {
+           FirstName = f;
+            LastName = l;
+            Email = email;
+            Login = login;
+            LastLoginDate = DateTime.Now;
+
+            Id = Guid.NewGuid();
+            Password = EncryptPassword(password);
+            Queries = new List<Query>();
         }
         public void AddQ(Query q)
         {
@@ -145,6 +138,17 @@ namespace LabArchitectures.Model
             try
             {
                 return (password) == EncryptPassword(p);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool CheckPassword(User userCandidate)
+        {
+            try
+            {
+                return password == userCandidate.Password;
             }
             catch (Exception)
             {

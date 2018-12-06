@@ -5,6 +5,9 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using LabArchitectures.Tools;
 using LabArchitectures.Managers;
+using LabArchitectures.DB;
+using LabArchitectures.Model;
+using System.Windows;
 
 namespace LabArchitectures.ViewModel.Auth
 {
@@ -22,7 +25,7 @@ namespace LabArchitectures.ViewModel.Auth
         {
             get
             {
-                return _signInCommand ?? (_signInCommand = new RelayCommand<object>(SignInExecute));
+                return _signInCommand ?? (_signInCommand = new RelayCommand<object>(SignInExecute, SignInCanExecute));
             }
         }
         public ICommand SignUpCommand
@@ -74,14 +77,16 @@ namespace LabArchitectures.ViewModel.Auth
             LoaderManager.Instance.ShowLoader();
             var result = await Task.Run(() =>
             {
-                Model.User currentUser;
+                User currentUser;
                 try
                 {
-                    currentUser = DB.ApplicationStaticDB.GetUserByLogin(_login);
+                    // currentUser = DB.ApplicationStaticDB.GetUserByLogin(_login);
+                    currentUser = DB.GenericEntityWrapper.GetUserByName(_login);
                 }
                 catch (Exception ex)
                 {
                     System.Windows.MessageBox.Show("Login Error :" + ex);
+                    Logger.Log("Error getting user"+ex);
                     return false;
                 }
                 if (currentUser == null)
@@ -99,17 +104,33 @@ namespace LabArchitectures.ViewModel.Auth
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show("Error!" + ex);
+                     System.Windows.MessageBox.Show("Error!" + ex);
+                    Logger.Log("Error for user, "+ex);
                     return false;
                 }
-
-                SessionContext.CurrentUser = currentUser;
-                Logger.Log("User " + currentUser.ID + " signed in");
+                try
+                {
+                    SessionContext.CurrentUser = currentUser;
+                    currentUser.LastLoginDate = DateTime.Now;
+                    GenericEntityWrapper.EditEntity(currentUser);
+                }
+                catch (Exception e)
+                {
+                    System.Windows.MessageBox.Show("Login Error :" + e);
+                    Logger.Log($"Error updating user {SessionContext.CurrentUser}"+ e);
+                    return false;
+                }
+                //SessionContext.CurrentUser = currentUser;
+                Logger.Log("User " + currentUser.Id + " signed in");
                 return true;
             });
             LoaderManager.Instance.HideLoader();
             if (result)
+            {
+
+               // MessageBox.Show("App started"+ ModesEnum.Main);
                 NavManager.Instance.Navigate(ModesEnum.Main);
+            }
         }
 
         private bool SignInCanExecute(object obj)

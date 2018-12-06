@@ -12,7 +12,7 @@ namespace LabArchitectures.Model
     [Serializable()]
     public class Query
     {
-        private int _id;
+        public Guid Id { get; set; }
         private String filePath;
         private DateTime execDate;
         private int wordCnt;
@@ -47,11 +47,8 @@ namespace LabArchitectures.Model
             set { lineCnt = value; }
         }
 
-        public int UserID
-        {
-            get { return _user.ID; }
-            set { _user.ID = value; }
-        }
+        public Guid UserId { get; set; }
+    
         public User User
         {
             get { return _user; }
@@ -64,18 +61,20 @@ namespace LabArchitectures.Model
 
         public class QueryEntityConfiguration: EntityTypeConfiguration<Query>
         {
-            QueryEntityConfiguration()
+          public  QueryEntityConfiguration()
             {
                 ToTable("Queries");
-                HasKey(q => q.UserID);
-
-                Property(q => q.UserID).HasColumnName("UserID").IsRequired();
+                HasKey(q => q.Id);
+                
                 Property(q => q.FilePath).HasColumnName("FilePath").IsRequired();
                 Property(q => q.ExecDate).HasColumnName("ExecDate").IsRequired();
                 Property(q => q.WordCnt).HasColumnName("WordCnt").IsRequired();
                 Property(q => q.CharCnt).HasColumnName("CharCnt").IsRequired();
                 Property(q => q.LineCnt).HasColumnName("LineCnt").IsRequired();
-                
+
+                HasRequired(tr => tr.User)
+                    .WithMany(u => u.Queries)
+                    .HasForeignKey(tr => tr.UserId);
             }
         }
 
@@ -86,12 +85,17 @@ namespace LabArchitectures.Model
         {
             return "Date: " + execDate + "File: " + filePath + "Symbols: " + CharCnt + " Words: " + WordCnt + " Lines: " + LineCnt;
         }
-        public Query(DateTime d, string f, string text, User user)
+        public Query()
         {
-            filePath = f;
-            execDate = d;
+
+        }
+        public Query(DateTime d, string f, string text, Guid user)
+        {
+            Id = Guid.NewGuid();
+            FilePath = f;
+            ExecDate = d;
             GetResAndWrite(text);
-            _user = user;
+            UserId = user;
         }
         //reads text and returns statistics
         public string GetRes(string text)
@@ -113,8 +117,8 @@ namespace LabArchitectures.Model
             WordCnt = WordsCount;
             CharCnt = CharCount;
             LineCnt = LinesCount;
-            _id = ApplicationStaticDB.GetNewID();
         }
 
     }
+
 }

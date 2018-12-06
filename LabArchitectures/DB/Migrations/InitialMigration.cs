@@ -12,23 +12,24 @@ namespace LabArchitectures.DB.Migrations
         {
             CreateTable("dbo.Users", c => new
             {
-                UserID = c.Int(nullable: false),
+                UserId = c.Guid(nullable: false),
                 FirstName = c.String(nullable: false),
                 LastName = c.String(nullable: false),
                 Email = c.String(),
                 Login = c.String(nullable: false),
                 Password = c.String(nullable: false),
                 LastLoginDate = c.DateTime(nullable: false),
-            }).PrimaryKey(u => u.UserID);
+            }).PrimaryKey(u => u.UserId);
             CreateTable("dbo.Queries", c => new
             {
-                UserId = c.Int(nullable: false),
+                QueryId = c.Guid(nullable: false),
+                UserId = c.Guid(nullable: false),
                 FilePath = c.String(nullable: false),
                 ExecDate = c.DateTime(nullable: false),
                 WordCnt = c.Int(nullable: false),
                 CharCnt = c.Int(nullable: false),
                 LineCnt = c.Int(nullable: false)
-            }).PrimaryKey(q => q.UserId).ForeignKey("dbo.Users", q => q.UserId, cascadeDelete: true).Index(q => q.UserId);
+            }).PrimaryKey(q => q.QueryId).ForeignKey("dbo.Users", q => q.UserId, cascadeDelete: true).Index(q => q.UserId);
         }
 
         public override void Down()

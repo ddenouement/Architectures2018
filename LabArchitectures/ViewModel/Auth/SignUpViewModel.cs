@@ -115,10 +115,11 @@ namespace LabArchitectures.ViewModel.Auth
             LoaderManager.Instance.ShowLoader();
             var result = await Task.Run(() =>
             {
-                Model.User currentUser;
+               User currentUser;
                 try
                 {
-                    if (ApplicationStaticDB.GetUserByLogin(_login) != null)
+                    // if (ApplicationStaticDB.GetUserByLogin(_login) != null)
+                    if (GenericEntityWrapper.GetUserByName(_login) != null)
                     {
                         MessageBox.Show("Try up new name! This user already exists: " + _login);
                         return false;
@@ -129,20 +130,34 @@ namespace LabArchitectures.ViewModel.Auth
                         return false;
                     }
                     currentUser = new User(_name, _lastname, _email, _login, _password);
-                    ApplicationStaticDB.AddUser(currentUser);
-                    SessionContext.CurrentUser = currentUser;
-                    Logger.Log("User " + currentUser.ID + " signed up");
+                    //ApplicationStaticDB.AddUser(currentUser);
+                    try
+                      { 
+                    GenericEntityWrapper.AddEntity<User>(currentUser);
+                        MessageBox.Show("added");
+                        SessionContext.CurrentUser = currentUser;
+                        MessageBox.Show("currUser");
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(""+e);
+                    }
+                    Logger.Log("User " + currentUser.Id + " signed up");
+                    Serializer.Serialize(currentUser, StaticResources.StorageFilePath);
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error! " + ex);
+                    Logger.Log("Error , "+ex);
                     return false;
                 }
             });
             LoaderManager.Instance.HideLoader();
             if (result)
+            {
+                
                 NavManager.Instance.Navigate(ModesEnum.Main);
+            }
 
         }
 

@@ -27,9 +27,9 @@ namespace LabArchitectures.DB
         {
             Users.Add(user);
         }
-        public static bool GetUserByID(int a)
+        public static bool GetUserByID(Guid a)
         {
-            return Users.Where(i => i.ID == a).FirstOrDefault() != null;
+            return Users.Where(i => i.Id == a).FirstOrDefault() != null;
         }
         public static int GetNewID()
         {

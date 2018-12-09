@@ -75,9 +75,9 @@
     <Compile Include="DB\GenericEntityWrapper.cs" />
     <Compile Include="DB\Migrations\InitialMigration.cs" />
     <Compile Include="Managers\LoaderManager.cs" />
+    <Compile Include="Tools\FileFolderHelper.cs" />
     <Compile Include="Tools\Logger.cs" />
     <Compile Include="Managers\SessionContext.cs" />
-    <Compile Include="DB\ApplicationStaticDB.cs" />
     <Compile Include="Managers\NavManager.cs" />
     <Compile Include="Tools\ILoaderOwner.cs" />
     <Compile Include="Tools\NavModel.cs" />

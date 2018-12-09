@@ -1,61 +1,59 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LabArchitectures.Tools
 {
-    /// <summary>
-    /// Utility for logging
-    /// </summary>
-    static class Logger
+    public static class Logger
     {
-
-        private static String logfilePath = MainWindow.LogfilePath;
-
-        /// <summary>
-        /// Set new logfile
-        /// </summary>
-        /// <param name="newLogfilePath"> path to new logfile</param>
-        public static void SetLogfile(String newLogfilePath)
+        public static void Log(string message)
         {
-            if (!isFilepathValid(newLogfilePath))
+            lock (FileFolderHelper.LogFilepath)
             {
-                throw new ArgumentException("Invalid Filepath");
+                StreamWriter writer = null;
+                FileStream file = null;
+                try
+                {
+                    FileFolderHelper.CheckAndCreateFile(FileFolderHelper.LogFilepath);
+                    file = new FileStream(FileFolderHelper.LogFilepath, FileMode.Append);
+                    writer = new StreamWriter(file);
+                    writer.WriteLine(DateTime.Now.ToString("HH:mm:ss.ms") + " " + message);
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    writer?.Close();
+                    file?.Close();
+                    writer = null;
+                    file = null;
+                }
             }
-
-            logfilePath = newLogfilePath;
+        }
+        public static void Log(string message, Exception ex)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(message);
+            while (ex != null)
+            {
+                stringBuilder.AppendLine(ex.Message);
+                stringBuilder.AppendLine(ex.StackTrace);
+                ex = ex.InnerException;
+            }
+            Log(stringBuilder.ToString());
         }
 
-        /// <summary>
-        /// Log str to currently selected logfile
-        /// </summary>
-        /// <param name="str">String to log</param>
-        public static void Log(String str)
+        public static void Log(Exception ex)
         {
-            File.AppendAllLines(logfilePath, new[] { DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"), str, "" });
-        }
-
-        public static void LogErr(String str)
-        {
-            Log(str.ToUpper() + "\n");
-        }
-
-        private static bool isFilepathValid(String filepath)
-        {
-            try
+            var stringBuilder = new StringBuilder();
+            while (ex != null)
             {
-                // These two methods throw exceptions if The path parameter contains invalid characters, is empty, or contains only white spaces.
-                Path.GetDirectoryName(filepath);
-                Path.GetFileName(filepath);
-                return true;
+                stringBuilder.AppendLine(ex.Message);
+                stringBuilder.AppendLine(ex.StackTrace);
+                ex = ex.InnerException;
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            Log(stringBuilder.ToString());
         }
     }
 }
